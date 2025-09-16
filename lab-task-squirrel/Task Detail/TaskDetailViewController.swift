@@ -17,6 +17,8 @@ class TaskDetailViewController: UIViewController {
     @IBOutlet private weak var descriptionLabel: UILabel!
     @IBOutlet private weak var attachPhotoButton: UIButton!
 
+    @IBOutlet weak var viewPhoto: UIButton!
+
     // MapView outlet
     @IBOutlet private weak var mapView: MKMapView!
 
@@ -56,6 +58,7 @@ class TaskDetailViewController: UIViewController {
 
         mapView.isHidden = !task.isComplete
         attachPhotoButton.isHidden = task.isComplete
+        viewPhoto.isHidden = !task.isComplete
     }
 
     @IBAction func didTapAttachPhotoButton(_ sender: Any) {
@@ -125,6 +128,15 @@ class TaskDetailViewController: UIViewController {
         let annotation = MKPointAnnotation()
         annotation.coordinate = coordinate
         mapView.addAnnotation(annotation)
+    }
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // Segue to Detail View Controller
+        if segue.identifier == "PhotoSegue" {
+            if let photoViewController = segue.destination as? PhotoViewController {
+                photoViewController.task = task
+            }
+        }
     }
 }
 
